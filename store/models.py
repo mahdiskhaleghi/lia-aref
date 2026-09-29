@@ -3,17 +3,13 @@ from django.db import models
 
 
 class Category(models.Model):
-
-    name = models.CharField(
-        max_length=200
-    )
+    name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name
 
 
 class Brand(models.Model):
-
     name = models.CharField(
         max_length=200,
         unique=True
@@ -36,7 +32,7 @@ class Product(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="products"
+        related_name="products",
     )
 
     brand = models.ForeignKey(
@@ -44,11 +40,17 @@ class Product(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="products"
+        related_name="products",
     )
 
     name = models.CharField(
         max_length=300
+    )
+
+    source_product_id = models.PositiveIntegerField(
+        unique=True,
+        null=True,
+        blank=True,
     )
 
     consumer_price = models.PositiveIntegerField(
@@ -70,22 +72,27 @@ class Product(models.Model):
     image = models.ImageField(
         upload_to="products/",
         blank=True,
-        null=True
+        null=True,
     )
 
     stock = models.PositiveIntegerField(
         default=0
     )
 
+    # تعداد بازدید محصول
+    view_count = models.PositiveIntegerField(
+        default=0
+    )
+
     specifications = models.JSONField(
         default=dict,
-        blank=True
+        blank=True,
     )
 
     status = models.CharField(
         max_length=30,
         choices=STATUS_CHOICES,
-        default="available"
+        default="available",
     )
 
     created_at = models.DateTimeField(
@@ -121,7 +128,7 @@ class ProductImage(models.Model):
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
-        related_name="images"
+        related_name="images",
     )
 
     image = models.ImageField(
@@ -137,7 +144,6 @@ class ProductImage(models.Model):
     )
 
     def __str__(self):
-
         return (
             f"{self.product.name} - "
             f"image {self.id}"
@@ -149,7 +155,7 @@ class Cart(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="cart"
+        related_name="cart",
     )
 
     created_at = models.DateTimeField(
@@ -161,10 +167,7 @@ class Cart(models.Model):
     )
 
     def __str__(self):
-
-        return (
-            f"سبد خرید {self.user.username}"
-        )
+        return f"سبد خرید {self.user.username}"
 
 
 class CartItem(models.Model):
@@ -172,13 +175,13 @@ class CartItem(models.Model):
     cart = models.ForeignKey(
         Cart,
         on_delete=models.CASCADE,
-        related_name="items"
+        related_name="items",
     )
 
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
-        related_name="cart_items"
+        related_name="cart_items",
     )
 
     quantity = models.PositiveIntegerField(
@@ -186,22 +189,17 @@ class CartItem(models.Model):
     )
 
     class Meta:
-
         constraints = [
             models.UniqueConstraint(
-                fields=[
-                    "cart",
-                    "product"
-                ],
-                name="unique_cart_product"
+                fields=["cart", "product"],
+                name="unique_cart_product",
             )
         ]
 
     def __str__(self):
-
         return (
-            f"{self.product.name} "
-            f"x {self.quantity}"
+            f"{self.product.name} x "
+            f"{self.quantity}"
         )
 
 
@@ -210,13 +208,13 @@ class WishlistItem(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="wishlist_items"
+        related_name="wishlist_items",
     )
 
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
-        related_name="wishlist_items"
+        related_name="wishlist_items",
     )
 
     created_at = models.DateTimeField(
@@ -224,19 +222,14 @@ class WishlistItem(models.Model):
     )
 
     class Meta:
-
         constraints = [
             models.UniqueConstraint(
-                fields=[
-                    "user",
-                    "product"
-                ],
-                name="unique_wishlist_product"
+                fields=["user", "product"],
+                name="unique_wishlist_product",
             )
         ]
 
     def __str__(self):
-
         return (
             f"{self.user.username} - "
             f"{self.product.name}"
@@ -248,12 +241,12 @@ class Address(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="addresses"
+        related_name="addresses",
     )
 
     title = models.CharField(
         max_length=100,
-        default="آدرس اصلی"
+        default="آدرس اصلی",
     )
 
     recipient_name = models.CharField(
@@ -283,7 +276,6 @@ class Address(models.Model):
     )
 
     def __str__(self):
-
         return (
             f"{self.recipient_name} - "
             f"{self.city}"
@@ -294,7 +286,7 @@ class DiscountCode(models.Model):
 
     code = models.CharField(
         max_length=50,
-        unique=True
+        unique=True,
     )
 
     discount_percent = models.PositiveIntegerField(
@@ -315,11 +307,10 @@ class DiscountCode(models.Model):
 
     expires_at = models.DateTimeField(
         null=True,
-        blank=True
+        blank=True,
     )
 
     def __str__(self):
-
         return self.code
 
 
@@ -337,7 +328,7 @@ class Order(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="orders"
+        related_name="orders",
     )
 
     address = models.ForeignKey(
@@ -345,7 +336,7 @@ class Order(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="orders"
+        related_name="orders",
     )
 
     discount_code = models.ForeignKey(
@@ -353,7 +344,7 @@ class Order(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="orders"
+        related_name="orders",
     )
 
     total_price = models.PositiveIntegerField(
@@ -371,7 +362,7 @@ class Order(models.Model):
     status = models.CharField(
         max_length=30,
         choices=STATUS_CHOICES,
-        default="pending"
+        default="pending",
     )
 
     created_at = models.DateTimeField(
@@ -383,7 +374,6 @@ class Order(models.Model):
     )
 
     def __str__(self):
-
         return (
             f"سفارش #{self.id} - "
             f"{self.user.username}"
@@ -395,14 +385,14 @@ class OrderItem(models.Model):
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
-        related_name="items"
+        related_name="items",
     )
 
     product = models.ForeignKey(
         Product,
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
+        blank=True,
     )
 
     product_name = models.CharField(
@@ -418,10 +408,9 @@ class OrderItem(models.Model):
     )
 
     def __str__(self):
-
         return (
-            f"{self.product_name} "
-            f"x {self.quantity}"
+            f"{self.product_name} x "
+            f"{self.quantity}"
         )
 
 
@@ -436,7 +425,7 @@ class Payment(models.Model):
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
-        related_name="payments"
+        related_name="payments",
     )
 
     amount = models.PositiveIntegerField(
@@ -445,13 +434,13 @@ class Payment(models.Model):
 
     tracking_code = models.CharField(
         max_length=100,
-        blank=True
+        blank=True,
     )
 
     status = models.CharField(
         max_length=30,
         choices=STATUS_CHOICES,
-        default="pending"
+        default="pending",
     )
 
     created_at = models.DateTimeField(
@@ -459,7 +448,6 @@ class Payment(models.Model):
     )
 
     def __str__(self):
-
         return (
             f"Payment #{self.id} - "
             f"Order #{self.order_id}"
@@ -471,7 +459,7 @@ class Review(models.Model):
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
-        related_name="reviews"
+        related_name="reviews",
     )
 
     name = models.CharField(
@@ -493,7 +481,6 @@ class Review(models.Model):
     )
 
     def __str__(self):
-
         return (
             f"{self.product.name} - "
             f"{self.rating}"
@@ -505,7 +492,7 @@ class ProductQuestion(models.Model):
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
-        related_name="questions"
+        related_name="questions",
     )
 
     name = models.CharField(
@@ -527,7 +514,6 @@ class ProductQuestion(models.Model):
     )
 
     def __str__(self):
-
         return (
             f"{self.product.name} - "
             f"Question #{self.id}"

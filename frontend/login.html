@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ورود | لیا عارف</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .auth-page {
+
+            min-height: calc(100vh - 90px);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 60px 20px;
+
+            background: #f8f8f5;
+
+        }
+
+        .auth-card {
+
+            width: 100%;
+
+            max-width: 430px;
+
+            background: #ffffff;
+
+            border: 1px solid #e8e8e3;
+
+            border-radius: 20px;
+
+            padding: 38px;
+
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+
+        }
+
+        .auth-title {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+        .auth-title h1 {
+
+            margin: 0 0 10px;
+
+            font-size: 28px;
+
+            color: #222;
+
+        }
+
+        .auth-title p {
+
+            margin: 0;
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+        .auth-form {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+
+        }
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+
+        }
+
+        .form-group label {
+
+            font-size: 14px;
+
+            color: #333;
+
+            font-weight: 600;
+
+        }
+
+        .form-group input {
+
+            width: 100%;
+
+            box-sizing: border-box;
+
+            padding: 13px 15px;
+
+            border: 1px solid #dcdcd6;
+
+            border-radius: 10px;
+
+            background: #fff;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: border-color 0.2s, box-shadow 0.2s;
+
+        }
+
+        .form-group input:focus {
+
+            border-color: #9bafa6;
+
+            box-shadow: 0 0 0 3px rgba(155, 175, 166, 0.12);
+
+        }
+
+        .auth-button {
+
+            width: 100%;
+
+            border: none;
+
+            border-radius: 10px;
+
+            padding: 14px;
+
+            background: #222;
+
+            color: #fff;
+
+            font-family: inherit;
+
+            font-size: 15px;
+
+            cursor: pointer;
+
+            transition: opacity 0.2s, transform 0.2s;
+
+        }
+
+        .auth-button:hover {
+
+            opacity: 0.9;
+
+        }
+
+        .auth-button:active {
+
+            transform: translateY(1px);
+
+        }
+
+        .auth-message {
+
+            min-height: 22px;
+
+            margin: 2px 0 0;
+
+            text-align: center;
+
+            font-size: 13px;
+
+            color: #555;
+
+        }
+
+        .auth-footer {
+
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #eeeeea;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            color: #777;
+
+        }
+
+        .auth-footer a {
+
+            color: #222;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+        }
+
+        .auth-footer a:hover {
+
+            text-decoration: underline;
+
+        }
+
+        .auth-back {
+
+            display: block;
+
+            margin-top: 18px;
+
+            text-align: center;
+
+            color: #777;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+        }
+
+        .auth-back:hover {
+
+            color: #222;
+
+        }
+
+        @media (max-width: 600px) {
+
+            .auth-page {
+
+                padding: 35px 15px;
+
+            }
+
+            .auth-card {
+
+                padding: 28px 22px;
+
+            }
+
+            .auth-title h1 {
+
+                font-size: 24px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header class="site-header">
+
+        <div class="header-inner">
+
+            <a href="index.html" class="logo">
+
+                لیا عارف
+
+            </a>
+
+            <nav class="main-nav">
+
+                <a href="index.html#categories">دسته‌بندی‌ها</a>
+
+                <a href="index.html#bestsellers">پرفروش‌ها</a>
+
+                <a href="index.html#brands">برندها</a>
+
+                <a href="index.html#popular">پربازدیدها</a>
+
+                <a href="index.html#new-products">تازه‌ها</a>
+
+            </nav>
+
+            <div class="header-actions">
+
+                <a href="login.html">ورود</a>
+
+                <a href="cart.html">
+
+                    سبد خرید
+
+                    (<span id="cart-count">0</span>)
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <main class="auth-page">
+
+        <div class="auth-card">
+
+            <div class="auth-title">
+
+                <h1>ورود به حساب کاربری</h1>
+
+                <p>برای ادامه، وارد حساب کاربری خود شوید.</p>
+
+            </div>
+
+            <form id="login-form" class="auth-form">
+
+                <div class="form-group">
+
+                    <label for="username">
+
+                        نام کاربری
+
+                    </label>
+
+                    <input
+
+                        type="text"
+
+                        id="username"
+
+                        name="username"
+
+                        autocomplete="username"
+
+                        required
+
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">
+
+                        رمز عبور
+
+                    </label>
+
+                    <input
+
+                        type="password"
+
+                        id="password"
+
+                        name="password"
+
+                        autocomplete="current-password"
+
+                        required
+
+                    >
+
+                </div>
+
+                <p id="login-message" class="auth-message"></p>
+
+                <button
+
+                    type="submit"
+
+                    class="auth-button"
+
+                >
+
+                    ورود
+
+                </button>
+
+            </form>
+
+            <div class="auth-footer">
+
+                حساب کاربری ندارید؟
+
+                <a href="register.html">
+
+                    ثبت‌نام کنید
+
+                </a>
+
+            </div>
+
+            <a href="index.html" class="auth-back">
+
+                بازگشت به فروشگاه
+
+            </a>
+
+        </div>
+
+    </main>
+
+    <script src="login.js"></script>
+
+</body>
+
+</html>
+

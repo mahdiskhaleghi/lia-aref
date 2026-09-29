@@ -43,6 +43,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
 
     username = serializers.CharField()
+
     password = serializers.CharField(
         write_only=True
     )
@@ -68,6 +69,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
+
         fields = [
             "id",
             "name",
@@ -78,6 +80,7 @@ class BrandSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Brand
+
         fields = [
             "id",
             "name",
@@ -88,6 +91,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductImage
+
         fields = [
             "id",
             "image",
@@ -132,6 +136,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "image",
             "images",
             "specifications",
+            "view_count",
         ]
 
 

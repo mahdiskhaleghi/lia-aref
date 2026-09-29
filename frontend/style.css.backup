@@ -1,0 +1,268 @@
+/* =========================
+   Lia Aref - Global Styles
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    color: #171717;
+    font-family: Tahoma, Arial, sans-serif;
+    direction: rtl;
+}
+
+a {
+    color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* =========================
+   Shared Header
+========================= */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid #e8e8e8;
+    backdrop-filter: blur(12px);
+}
+
+.header-inner {
+    width: 100%;
+    max-width: 1400px;
+    min-height: 76px;
+    margin: 0 auto;
+    padding: 0 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.logo {
+    color: #171717;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    flex: 1;
+}
+
+.main-nav a {
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.main-nav a:hover {
+    color: #579b85;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.header-actions a {
+    color: #222;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.header-actions a:hover {
+    color: #579b85;
+}
+
+/* =========================
+   Shared Footer
+========================= */
+
+.site-footer {
+    margin-top: 80px;
+    background: #171717;
+    color: #fff;
+}
+
+.footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 55px 28px 35px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.footer-logo {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.footer-about {
+    max-width: 420px;
+    color: #cfcfcf;
+    line-height: 2;
+    font-size: 14px;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-links a {
+    color: #d8d8d8;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #9ed4c3;
+}
+
+.footer-bottom {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 28px;
+    border-top: 1px solid #333;
+    color: #999;
+    font-size: 12px;
+}
+
+/* =========================
+   Shared Buttons
+========================= */
+
+.auth-button,
+.submit-order-btn,
+.add-to-cart-button,
+.hero-button {
+    border: 0;
+    border-radius: 10px;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.auth-button:hover,
+.submit-order-btn:hover,
+.add-to-cart-button:hover,
+.hero-button:hover {
+    transform: translateY(-1px);
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 900px) {
+    .header-inner {
+        min-height: 68px;
+        padding: 0 18px;
+        gap: 15px;
+    }
+
+    .main-nav {
+        gap: 15px;
+    }
+
+    .main-nav a {
+        font-size: 12px;
+    }
+
+    .logo {
+        font-size: 21px;
+    }
+
+    .header-actions {
+        gap: 10px;
+    }
+
+    .header-actions a {
+        font-size: 12px;
+    }
+
+    .footer-inner {
+        padding: 40px 20px 25px;
+        flex-direction: column;
+    }
+
+    .footer-bottom {
+        padding: 18px 20px;
+    }
+}
+
+@media (max-width: 650px) {
+    .header-inner {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 14px 16px;
+    }
+
+    .logo {
+        width: 100%;
+        text-align: center;
+    }
+
+    .main-nav {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 4px;
+    }
+
+    .main-nav a {
+        white-space: nowrap;
+    }
+
+    .header-actions {
+        position: absolute;
+        left: 16px;
+        top: 17px;
+    }
+
+    .footer-inner {
+        gap: 30px;
+    }
+}

@@ -1,6 +1,8 @@
 from django.contrib.auth import login
 from django.db import transaction
+from django.db.models import F, Q, Sum
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from rest_framework import generics, status
 from rest_framework.authtoken.models import Token
@@ -22,6 +24,7 @@ from .models import (
     Review,
     WishlistItem,
 )
+
 from .serializers import (
     AddressSerializer,
     BrandSerializer,
@@ -120,15 +123,81 @@ class ProductListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
 
-        return Product.objects.select_related(
+        queryset = Product.objects.select_related(
             "category",
             "brand",
         ).prefetch_related(
             "images"
-        ).order_by("-id")
+        )
+
+        sort_type = self.request.query_params.get(
+            "sort",
+            "newest"
+        )
+
+        # ---------------------------------------------
+        # پرفروش‌ها
+        # ---------------------------------------------
+
+        if sort_type == "bestsellers":
+
+            queryset = queryset.annotate(
+                sold_count=Sum(
+                    "orderitem__quantity",
+                    filter=Q(
+                        orderitem__order__status__in=[
+                            "paid",
+                            "processing",
+                            "shipped",
+                            "delivered",
+                        ]
+                    ),
+                    default=0,
+                )
+            ).order_by(
+                "-sold_count",
+                "-created_at",
+            )
+
+        # ---------------------------------------------
+        # پربازدیدها
+        # ---------------------------------------------
+
+        elif sort_type == "popular":
+
+            queryset = queryset.order_by(
+                "-view_count",
+                "-created_at",
+            )
+
+        # ---------------------------------------------
+        # تازه‌ها
+        # ---------------------------------------------
+
+        elif sort_type == "newest":
+
+            queryset = queryset.order_by(
+                "-created_at",
+                "-id",
+            )
+
+        # ---------------------------------------------
+        # حالت پیش‌فرض
+        # ---------------------------------------------
+
+        else:
+
+            queryset = queryset.order_by(
+                "-created_at",
+                "-id",
+            )
+
+        return queryset
 
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
+class ProductDetailAPIView(
+    generics.RetrieveAPIView
+):
 
     serializer_class = ProductSerializer
     permission_classes = [AllowAny]
@@ -140,8 +209,24 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
         "images"
     )
 
+    def get_object(self):
 
-class CategoryListAPIView(generics.ListAPIView):
+        product = super().get_object()
+
+        Product.objects.filter(
+            id=product.id
+        ).update(
+            view_count=F("view_count") + 1
+        )
+
+        product.refresh_from_db()
+
+        return product
+
+
+class CategoryListAPIView(
+    generics.ListAPIView
+):
 
     serializer_class = CategorySerializer
     permission_classes = [AllowAny]
@@ -151,7 +236,9 @@ class CategoryListAPIView(generics.ListAPIView):
     )
 
 
-class BrandListAPIView(generics.ListAPIView):
+class BrandListAPIView(
+    generics.ListAPIView
+):
 
     serializer_class = BrandSerializer
     permission_classes = [AllowAny]
@@ -166,7 +253,9 @@ class BrandListAPIView(generics.ListAPIView):
 # ---------------------------------------------------------
 
 
-class CartAPIView(generics.RetrieveAPIView):
+class CartAPIView(
+    generics.RetrieveAPIView
+):
 
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
@@ -180,7 +269,9 @@ class CartAPIView(generics.RetrieveAPIView):
         return cart
 
 
-class CartItemCreateAPIView(generics.CreateAPIView):
+class CartItemCreateAPIView(
+    generics.CreateAPIView
+):
 
     serializer_class = CartItemSerializer
     permission_classes = [IsAuthenticated]
@@ -250,6 +341,7 @@ class CartItemCreateAPIView(generics.CreateAPIView):
         if not created:
 
             item.quantity += quantity
+
             item.save(
                 update_fields=["quantity"]
             )
@@ -378,7 +470,9 @@ class AddressDetailAPIView(
 # ---------------------------------------------------------
 
 
-class OrderListAPIView(generics.ListAPIView):
+class OrderListAPIView(
+    generics.ListAPIView
+):
 
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
@@ -397,7 +491,9 @@ class OrderListAPIView(generics.ListAPIView):
         )
 
 
-class OrderCreateAPIView(generics.CreateAPIView):
+class OrderCreateAPIView(
+    generics.CreateAPIView
+):
 
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
@@ -542,7 +638,10 @@ class OrderCreateAPIView(generics.CreateAPIView):
 
                 return Response(
                     {
-                        "error": "ظرفیت استفاده از کد تخفیف تمام شده است."
+                        "error": (
+                            "ظرفیت استفاده از کد تخفیف "
+                            "تمام شده است."
+                        )
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
@@ -554,7 +653,8 @@ class OrderCreateAPIView(generics.CreateAPIView):
             )
 
         final_price = (
-            total_price - discount_amount
+            total_price
+            - discount_amount
         )
 
         order = Order.objects.create(

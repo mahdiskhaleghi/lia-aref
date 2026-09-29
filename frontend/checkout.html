@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>تکمیل سفارش | لیا عارف</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .checkout-page {
+            max-width: 1200px;
+            margin: 45px auto 80px;
+            padding: 0 24px;
+        }
+
+        .checkout-title {
+            margin: 0 0 35px;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(300px, .8fr);
+            gap: 28px;
+            align-items: start;
+        }
+
+        .checkout-box,
+        .checkout-summary {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .04);
+        }
+
+        .checkout-box h2,
+        .checkout-summary h2 {
+            margin: 0 0 25px;
+            font-size: 20px;
+        }
+
+        .checkout-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            outline: none;
+            background: #fff;
+            color: #222;
+            font-family: inherit;
+            font-size: 14px;
+            transition: .2s ease;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #8fc9b7;
+            box-shadow: 0 0 0 3px rgba(143, 201, 183, .14);
+        }
+
+        .submit-order-btn {
+            width: 100%;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 13px;
+            background: #171717;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: .2s ease;
+        }
+
+        .submit-order-btn:hover {
+            background: #333;
+        }
+
+        .submit-order-btn:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        .checkout-message {
+            min-height: 22px;
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .checkout-message.error {
+            color: #b42318;
+        }
+
+        .checkout-message.success {
+            color: #28745d;
+        }
+
+        .checkout-message.info {
+            color: #666;
+        }
+
+        .summary-items {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item-name {
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .summary-item-meta {
+            color: #888;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .summary-item-price {
+            white-space: nowrap;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            padding-top: 20px;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .back-cart {
+            display: inline-block;
+            margin-top: 18px;
+            color: #555;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .back-cart:hover {
+            text-decoration: underline;
+        }
+
+        .checkout-empty {
+            text-align: center;
+            padding: 30px 10px;
+            color: #777;
+            line-height: 2;
+        }
+
+        .checkout-empty a {
+            display: inline-block;
+            margin-top: 12px;
+            color: #222;
+            font-weight: 700;
+        }
+
+        .checkout-loading {
+            color: #777;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 850px) {
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .checkout-page {
+                margin-top: 30px;
+                padding: 0 16px;
+            }
+
+            .checkout-title {
+                font-size: 25px;
+            }
+
+            .checkout-box,
+            .checkout-summary {
+                padding: 20px;
+                border-radius: 18px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="header-inner">
+
+        <a href="index.html" class="logo">
+            لیا عارف
+        </a>
+
+        <nav class="main-nav">
+            <a href="index.html#categories">دسته‌بندی‌ها</a>
+            <a href="index.html#bestsellers">پرفروش‌ها</a>
+            <a href="index.html#brands">برندها</a>
+        </nav>
+
+        <div class="header-actions">
+
+            <a href="cart.html" class="cart-link">
+                سبد خرید
+                <span id="cart-count">0</span>
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="checkout-page">
+
+    <h1 class="checkout-title">
+        تکمیل سفارش
+    </h1>
+
+
+    <div class="checkout-layout">
+
+        <!-- فرم اطلاعات گیرنده -->
+
+        <section class="checkout-box">
+
+            <h2>
+                اطلاعات ارسال
+            </h2>
+
+            <form id="checkout-form" class="checkout-form">
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="full-name">
+                            نام و نام خانوادگی
+                        </label>
+
+                        <input
+                            type="text"
+                            id="full-name"
+                            name="full-name"
+                            placeholder="نام و نام خانوادگی گیرنده"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            شماره تماس
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            placeholder="مثلاً 09123456789"
+                            autocomplete="tel"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="province">
+                            استان
+                        </label>
+
+                        <input
+                            type="text"
+                            id="province"
+                            name="province"
+                            placeholder="مثلاً تهران"
+                            autocomplete="address-level1"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="city">
+                            شهر
+                        </label>
+
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            placeholder="مثلاً تهران"
+                            autocomplete="address-level2"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="address">
+                        آدرس کامل
+                    </label>
+
+                    <textarea
+                        id="address"
+                        name="address"
+                        placeholder="آدرس کامل محل دریافت سفارش"
+                        autocomplete="street-address"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="postal-code">
+                        کد پستی
+                    </label>
+
+                    <input
+                        type="text"
+                        id="postal-code"
+                        name="postal-code"
+                        placeholder="کد پستی ۱۰ رقمی"
+                        inputmode="numeric"
+                        autocomplete="postal-code"
+                        required
+                    >
+
+                </div>
+
+
+                <p
+                    id="checkout-message"
+                    class="checkout-message"
+                ></p>
+
+
+                <button
+                    type="submit"
+                    id="submit-order-btn"
+                    class="submit-order-btn"
+                >
+                    ثبت سفارش
+                </button>
+
+            </form>
+
+
+            <a
+                href="cart.html"
+                class="back-cart"
+            >
+                ← بازگشت به سبد خرید
+            </a>
+
+        </section>
+
+
+        <!-- خلاصه سفارش -->
+
+        <aside class="checkout-summary">
+
+            <h2>
+                خلاصه سفارش
+            </h2>
+
+            <div id="checkout-summary-content">
+
+                <div class="checkout-loading">
+                    در حال دریافت اطلاعات سبد خرید...
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="footer-inner">
+
+        <div>
+
+            <div class="footer-logo">
+                لیا عارف
+            </div>
+
+            <p class="footer-about">
+                انتخابی برای مراقبت، زیبایی و حال خوب شما.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="index.html">
+                فروشگاه
+            </a>
+
+            <a href="cart.html">
+                سبد خرید
+            </a>
+
+            <a href="login.html">
+                ورود
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+        © لیا عارف
+    </div>
+
+</footer>
+
+
+<script src="checkout.js"></script>
+
+</body>
+
+</html>

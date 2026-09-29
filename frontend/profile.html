@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>حساب کاربری | لیا عارف</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .profile-page {
+            max-width: 1000px;
+            margin: 45px auto;
+            padding: 0 20px 70px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .profile-header h1 {
+            margin-bottom: 10px;
+        }
+
+        .profile-header p {
+            color: #777;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 25px;
+        }
+
+        .profile-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.06);
+        }
+
+        .profile-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .profile-menu button {
+            border: 0;
+            background: #f7f7f7;
+            padding: 13px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .profile-menu button:hover {
+            background: #eee;
+        }
+
+        .profile-menu .logout-btn {
+            color: #b42318;
+            margin-top: 10px;
+        }
+
+        .profile-section {
+            margin-bottom: 25px;
+        }
+
+        .profile-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .profile-section h2 {
+            font-size: 20px;
+            margin-bottom: 18px;
+        }
+
+        .user-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .info-label {
+            display: block;
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .order-item {
+            border: 1px solid #eee;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 12px;
+        }
+
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+
+        .order-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .order-status {
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #777;
+            padding: 30px 10px;
+        }
+
+        .profile-message {
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            background: #f7f7f7;
+        }
+
+        @media (max-width: 750px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .user-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <a href="index.html" class="logo">لیا عارف</a>
+
+        <nav>
+            <a href="index.html">خانه</a>
+            <a href="index.html#categories">دسته‌بندی‌ها</a>
+            <a href="cart.html">سبد خرید</a>
+        </nav>
+    </div>
+</header>
+
+<main class="profile-page">
+
+    <div class="profile-header">
+        <h1>حساب کاربری</h1>
+        <p>مدیریت اطلاعات حساب و مشاهده سفارش‌های شما</p>
+    </div>
+
+    <div id="profile-message"></div>
+
+    <div class="profile-grid">
+
+        <aside class="profile-card">
+            <div class="profile-menu">
+                <button type="button" onclick="showSection('account')">
+                    اطلاعات حساب
+                </button>
+
+                <button type="button" onclick="showSection('orders')">
+                    سفارش‌های من
+                </button>
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    onclick="logoutUser()"
+                >
+                    خروج از حساب
+                </button>
+            </div>
+        </aside>
+
+        <section>
+
+            <div
+                id="account-section"
+                class="profile-card profile-section"
+            >
+                <h2>اطلاعات حساب</h2>
+
+                <div id="user-info">
+                    <div class="empty-state">
+                        در حال دریافت اطلاعات...
+                    </div>
+                </div>
+            </div>
+
+            <div
+                id="orders-section"
+                class="profile-card profile-section"
+                style="display:none;"
+            >
+                <h2>سفارش‌های من</h2>
+
+                <div id="orders-list">
+                    <div class="empty-state">
+                        در حال دریافت سفارش‌ها...
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+<script src="profile.js"></script>
+
+</body>
+</html>
