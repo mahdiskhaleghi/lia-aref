@@ -48,3 +48,4 @@ db.sqlite3
 .DS_Store
 media/
 products/
+products_backup/
