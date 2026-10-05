@@ -1,4 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
 venv/
+.venv/
+env/
+
+# Django
+db.sqlite3
+*.sqlite3
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Media uploaded by users
+media/
+
+# Static collected files
+staticfiles/
+
+# Temporary files
+*.tmp
+*.tempvenv/
 __pycache__/
 *.py[cod]
 db.sqlite3
