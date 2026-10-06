@@ -4,7 +4,7 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Order, Payment
+from .models import Order, Payment, OrderItem, OrderItem
 from .serializers import PaymentSerializer
 
 
@@ -31,6 +31,58 @@ class PaymentSandboxAPIView(generics.GenericAPIView):
                     "status": payment.status,
                 },
                 status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        order_items = OrderItem.objects.filter(
+            order=payment.order
+        ).select_related("product")
+
+        for item in order_items:
+
+            if item.product.stock < item.quantity:
+
+                return Response(
+                    {
+                        "error": (
+                            f"موجودی محصول «"
+                            f"{item.product.name}» کافی نیست."
+                        )
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        for item in order_items:
+
+            item.product.stock -= item.quantity
+
+            item.product.save(
+                update_fields=["stock"]
+            )
+
+        order_items = OrderItem.objects.filter(
+            order=payment.order
+        ).select_related("product")
+
+        for item in order_items:
+
+            if item.product.stock < item.quantity:
+
+                return Response(
+                    {
+                        "error": (
+                            f"موجودی محصول «"
+                            f"{item.product.name}» کافی نیست."
+                        )
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        for item in order_items:
+
+            item.product.stock -= item.quantity
+
+            item.product.save(
+                update_fields=["stock"]
             )
 
         payment.status = "successful"

@@ -677,11 +677,6 @@ class OrderCreateAPIView(
                 quantity=item.quantity,
             )
 
-            item.product.stock -= item.quantity
-
-            item.product.save(
-                update_fields=["stock"]
-            )
 
         if discount_code:
 

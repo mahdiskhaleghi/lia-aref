@@ -25,6 +25,14 @@ function getLocalCart() {
     }
 }
 
+function getProductId(item) {
+    return Number(
+        item.productId ??
+        item.product_id ??
+        item.product
+    );
+}
+
 function saveLocalCart(cart) {
     localStorage.setItem(
         "lia_cart",
@@ -205,7 +213,7 @@ async function enrichCartItem(item) {
     try {
 
         const product = await apiRequest(
-            `${API_BASE}/api/products/${item.productId}/`
+            `${API_BASE}/api/products/${getProductId(item)}/`
         );
 
         return {
@@ -323,7 +331,7 @@ async function syncCartWithBackend(
     const localProductIds =
         new Set(
             localCart.map(item =>
-                Number(item.productId)
+                getProductId(item)
             )
         );
 
@@ -364,10 +372,16 @@ async function syncCartWithBackend(
     for (const localItem of localCart) {
 
         const productId =
-            Number(localItem.productId);
+            Number(getProductId(localItem));
 
         const quantity =
             Number(localItem.quantity || 1);
+
+        if (!productId) {
+            throw new Error(
+                "شناسه محصول در سبد خرید نامعتبر است."
+            );
+        }
 
         const backendItem =
             currentBackendItems.find(
