@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>محصول | لیا عارف</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="product.css">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="header-inner">
+
+        <a href="index.html" class="logo">
+            لیا عارف
+        </a>
+
+        <nav class="main-nav">
+
+            <a href="index.html#categories">دسته‌بندی‌ها</a>
+            <a href="index.html#bestsellers">پرفروش‌ها</a>
+            <a href="index.html#brands">برندها</a>
+            <a href="index.html#popular">پربازدیدها</a>
+            <a href="index.html#new-products">تازه‌ها</a>
+
+        </nav>
+
+        <div class="header-actions">
+
+            <a href="login.html" class="login-link">
+                ورود
+            </a>
+
+            <a href="cart.html" class="cart-link">
+                سبد خرید
+                <span id="cart-count">0</span>
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="product-page">
+
+    <div id="product-loading" class="product-loading">
+        در حال بارگذاری اطلاعات محصول...
+    </div>
+
+
+    <section
+        id="product-content"
+        class="product-content"
+        hidden
+    >
+
+        <div class="product-gallery">
+
+            <div class="main-image-box">
+
+                <button
+                    id="gallery-prev"
+                    class="gallery-arrow gallery-prev"
+                    type="button"
+                    aria-label="تصویر قبلی"
+                >
+                    ‹
+                </button>
+
+                <div
+                    id="product-main-image"
+                    class="product-main-image"
+                >
+                </div>
+
+                <button
+                    id="gallery-next"
+                    class="gallery-arrow gallery-next"
+                    type="button"
+                    aria-label="تصویر بعدی"
+                >
+                    ›
+                </button>
+
+            </div>
+
+
+            <div class="gallery-counter">
+                <span id="gallery-current">1</span>
+                /
+                <span id="gallery-total">0</span>
+            </div>
+
+
+            <div class="thumbnails-wrapper">
+
+                <button
+                    id="thumbnails-prev"
+                    class="thumbnail-arrow"
+                    type="button"
+                    aria-label="عکس‌های قبلی"
+                >
+                    ‹
+                </button>
+
+                <div
+                    id="product-thumbnails"
+                    class="product-thumbnails"
+                >
+                </div>
+
+                <button
+                    id="thumbnails-next"
+                    class="thumbnail-arrow"
+                    type="button"
+                    aria-label="عکس‌های بعدی"
+                >
+                    ›
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="product-details">
+
+            <div
+                id="product-brand"
+                class="product-brand"
+            >
+            </div>
+
+            <h1
+                id="product-name"
+                class="product-name"
+            >
+            </h1>
+
+            <div
+                id="product-price"
+                class="product-price"
+            >
+            </div>
+
+            <div
+                id="product-status"
+                class="product-status"
+            >
+            </div>
+
+
+            <div class="product-divider"></div>
+
+
+            <div class="product-description">
+
+                <h2>
+                    توضیحات محصول
+                </h2>
+
+                <p id="product-description"></p>
+
+            </div>
+
+
+            <div
+                id="product-specifications-box"
+                class="product-specifications"
+            >
+
+                <h2>
+                    مشخصات محصول
+                </h2>
+
+                <div id="product-specifications"></div>
+
+            </div>
+
+
+            <div class="product-actions">
+
+                <button
+                    id="add-to-cart-button"
+                    class="add-to-cart-button"
+                >
+                    افزودن به سبد خرید
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div
+        id="product-error"
+        class="product-error"
+        hidden
+    >
+        دریافت اطلاعات محصول با مشکل مواجه شد.
+    </div>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="footer-inner">
+
+        <div class="footer-about">
+
+            <div class="footer-logo">
+                لیا عارف
+            </div>
+
+            <p>
+                انتخابی برای مراقبت،
+                زیبایی و حال خوب شما.
+            </p>
+
+        </div>
+
+        <div class="footer-links">
+
+            <a href="index.html#categories">دسته‌بندی‌ها</a>
+            <a href="index.html#bestsellers">پرفروش‌ها</a>
+            <a href="index.html#brands">برندها</a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © لیا عارف
+    </div>
+
+</footer>
+
+
+<script src="product.js"></script>
+
+</body>
+
+</html>
